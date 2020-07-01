@@ -1,0 +1,48 @@
+package HW6;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class WordCount {
+	MyHashMap<String, Integer> lhm = new MyHashMap<>() ;
+	String filename ;
+
+	WordCount() { }
+	WordCount(String inputfile) {
+		this.filename = inputfile ;
+	}
+	public void scanFile() {
+		File f = new File(this.filename);
+		try {
+			Scanner input = new Scanner(f);
+			while (input.hasNext()) {
+				String s = input.next();
+				if (lhm.containsKey(s)) {
+					int c = lhm.get(s); 
+					c++; 
+					lhm.put(s,new Integer(c));
+				} else {
+						lhm.put(s,1);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void printCount() {
+		System.out.println("The total number of unique words is: "+ lhm.entrySet().size());
+		int c = 0;
+		for (MyMap.Entry<String, Integer> ent: lhm.entrySet()) {
+			System.out.println(ent.getKey()+":"+ent.getValue());
+			c+=ent.getValue();
+		}
+		System.out.println("The total word count is: "+ c);
+	}
+	public static void main(String... strings) {
+		//Ask user to input file name		
+		WordCount wc = new WordCount("src\\HW6\\dr_li_training_story.txt");
+		wc.scanFile();
+		wc.printCount();		
+	}
+}

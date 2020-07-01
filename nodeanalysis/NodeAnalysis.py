@@ -71,6 +71,8 @@ class NodeAnalysisCallback(Callback):
         node.bias = self.weight_dict[self.nnlayer_names[layer_index]]["bias"][epoch][node_index[-1]]
         node.activation = self.weight_dict[self.nnlayer_names[layer_index]]["activation"][epoch]
         
+        self._setOps(node, self._getOpList())
+        
         return node
     
     def getNodeHistory(self, layer_index, node_index):
@@ -79,3 +81,23 @@ class NodeAnalysisCallback(Callback):
         for e in range(epochs):
             nodelist.append(self.getNode(layer_index, node_index, epoch=e))
         return nodelist
+    
+    def _getOpList(self):
+        nnindex = -1
+        m = []
+
+        for index in range(len(self.layer_names)):
+            layer = self.layer_names[index]
+            if layer in self.nnlayer_names:
+                nnindex = nnindex + 1
+            else:
+                m.append([nnindex, index])
+                
+        return m
+    
+    def _setOps(self, node, oplist):
+        for op in oplist:
+            if op[0] == -1:
+                node.operation_in = self.model.layers[op[1]]
+            if self.nnlayer_names[op[0]] == node.layer.name:
+                node.operation_out = self.model.layers[op[1]]

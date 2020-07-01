@@ -18,6 +18,10 @@ class Node:
         self.operation_in = None
         self.operation_out = None
         self.epoch = None
+        
+        ## Helpful but not necessary ##
+        self.layer_index = None
+        self.nnlayer_index = None
     
     def report(self):
         print(f"NODE [name={self.name} epoch={self.epoch}]")
