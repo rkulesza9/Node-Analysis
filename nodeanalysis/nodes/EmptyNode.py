@@ -46,6 +46,8 @@ class EmptyNode:
 
         self.name = f"Node {self.layer.name} : { node_index }"
         
+        self.epochs = len(nac.weights[self.layer.name])
+        
         return self
     
     def history(self, epochs, node_type):

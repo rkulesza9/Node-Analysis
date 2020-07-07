@@ -1,12 +1,13 @@
 from nodeanalysis.nodes.EmptyNode import EmptyNode
 
 class SimpleNeuron(EmptyNode):
-    def __init__(self):
+    def __init__(self, has_activation=True):
         super(SimpleNeuron,self).__init__()
         
         self.weight = None
         self.bias = None
         self.activation = None
+        self.has_activation = has_activation
     
     def report(self):
         super(SimpleNeuron, self).report()
@@ -16,10 +17,11 @@ class SimpleNeuron(EmptyNode):
         print(f"\t bias={self.bias}")
         print(f"\t epochs={self.epochs}")
     
-    def get(self, nac, layer_index, node_index, epoch=0):
+    def get(self, nac, layer_index, node_index, epoch=-1):
         super(SimpleNeuron, self).get(nac, layer_index, node_index, epoch=epoch)
         
-        self.activation = self.layer.activation
+        if self.has_activation:
+            self.activation = self.layer.activation
  
         weights = nac.weights[self.layer.name][epoch][0]
         bias = nac.weights[self.layer.name][epoch][1]
@@ -29,6 +31,5 @@ class SimpleNeuron(EmptyNode):
             self.weight = self.weight[a]
             
         self.bias = bias[node_index[-1]]
-        self.epochs = len(nac.weights[self.layer.name])
         
         return self
