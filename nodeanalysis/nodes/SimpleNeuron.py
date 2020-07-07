@@ -30,3 +30,5 @@ class SimpleNeuron(EmptyNode):
             
         self.bias = bias[node_index[-1]]
         self.epochs = len(nac.weights[self.layer.name])
+        
+        return self

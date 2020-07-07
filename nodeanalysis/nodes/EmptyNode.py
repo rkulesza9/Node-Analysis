@@ -45,7 +45,9 @@ class EmptyNode:
             self.layer_out = self.model.layers[layer_index + 1]
 
         self.name = f"Node {self.layer.name} : { node_index }"
+        
+        return self
     
-    def history(self, epochs):
-        h = [EmptyNode().get(self.nac,self.layer_index,self.node_index,epoch=e) for e in range(epochs)]
+    def history(self, epochs, node_type):
+        h = [node_type().get(self.nac,self.layer_index,self.node_index,epoch=e) for e in range(epochs)]
         return h
